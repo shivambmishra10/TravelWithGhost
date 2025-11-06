@@ -141,7 +141,7 @@ export default function TripDetails() {
   return (
     <div className="trip-container">
       <Head>
-        <title>{trip.group_name} | travelwithghost™</title>
+        <title>{trip.group_name} | travelwithghost&trade;</title>
       </Head>
 
       <Navigation />
@@ -215,7 +215,7 @@ export default function TripDetails() {
                     )}
                     {joinRequestStatus === 'accepted' && (
                       <Alert variant="success">
-                        You've been accepted to this trip!
+                        You&apos;ve been accepted to this trip!
                       </Alert>
                     )}
                     {joinRequestStatus === 'rejected' && (

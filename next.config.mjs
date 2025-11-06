@@ -15,9 +15,7 @@ const nextConfig = {
         },
       ],
     },
-    experimental: {
-      appDir: false, // Disable the new App Router to prevent unexpected SSR behavior
-    },
+    // experimental options removed as they're no longer needed
 };
 // module.exports = {
     // };
