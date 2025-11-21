@@ -65,7 +65,7 @@ export default function Home() {
             <Col lg={6}>
               <div className="position-relative">
                 <Image 
-                  src="http://localhost:8000/media/travel-traveling-symbolic-picture-vacation-background-4_1032298-2456.avif" 
+                  src={`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}/media/travel-traveling-symbolic-picture-vacation-background-4_1032298-2456.avif`}
                   alt="Travel Adventure" 
                   width={800}
                   height={500}
@@ -141,7 +141,7 @@ export default function Home() {
                     <div className="position-relative">
                       <Card.Img 
                         variant="top" 
-                        src={`http://localhost:8000${city.image}`} 
+                        src={`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}${city.image}`}
                         alt={city.name}
                         style={{ height: '250px', objectFit: 'cover' }}
                       />

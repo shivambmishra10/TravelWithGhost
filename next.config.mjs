@@ -1,11 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    productionBrowserSourceMaps: true, // Generates better source maps
+    productionBrowserSourceMaps: true,
     reactStrictMode: true,
-    output: 'export', // Ensures full static site export
     images: {
-      unoptimized: true, // Disable image optimization for static export
-      domains: ['api.travelwithghost.com'],
+      unoptimized: true,
+      domains: ['api.travelwithghost.com', 'localhost'],
       remotePatterns: [
         {
           protocol: 'https',
@@ -13,11 +12,14 @@ const nextConfig = {
           port: '',
           pathname: '/media/**',
         },
+        {
+          protocol: 'http',
+          hostname: 'localhost',
+          port: '8000',
+          pathname: '/media/**',
+        },
       ],
     },
-    // experimental options removed as they're no longer needed
 };
-// module.exports = {
-    // };
-  
+
 export default nextConfig;
