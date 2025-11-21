@@ -2,7 +2,6 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Head from 'next/head';
-import Image from 'next/image';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import Navigation from '../components/Navigation';
 import api from '../utils/api';
@@ -64,11 +63,9 @@ export default function Home() {
             </Col>
             <Col lg={6}>
               <div className="position-relative">
-                <Image 
+                <img 
                   src={`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}/media/travel-traveling-symbolic-picture-vacation-background-4_1032298-2456.avif`}
                   alt="Travel Adventure" 
-                  width={800}
-                  height={500}
                   className="rounded-3 shadow-lg"
                   style={{ maxHeight: '500px', width: '100%', objectFit: 'cover' }}
                 />
