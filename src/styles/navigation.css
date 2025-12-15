@@ -1,0 +1,114 @@
+/* Navigation Styles */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: #ffffff !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  padding: 0.75rem 0;
+  transition: all 0.3s ease;
+}
+
+.navbar-brand {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #0a192f !important;
+  transition: all 0.3s ease;
+  padding: 0;
+}
+
+.navbar-brand:hover {
+  color: #4299e1 !important;
+}
+
+.nav-link {
+  color: #4a5568 !important;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  transition: all 0.3s ease;
+  position: relative;
+  margin: 0 0.25rem;
+}
+
+.nav-link:hover {
+  color: #4299e1 !important;
+}
+
+.nav-link.active {
+  color: #4299e1 !important;
+}
+
+.nav-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: -0.75rem;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: #4299e1;
+}
+
+.navbar-toggler {
+  border: none;
+  padding: 0.5rem;
+  outline: none !important;
+}
+
+.navbar-toggler:focus {
+  box-shadow: none;
+}
+
+/* Adjust main content to account for fixed navbar */
+body {
+  padding-top: 64px; /* Adjusted navbar height */
+}
+
+/* Responsive adjustments */
+@media (max-width: 991.98px) {
+  .navbar-collapse {
+    background-color: #ffffff;
+    padding: 1rem;
+    margin-top: 0.5rem;
+  }
+
+  .nav-link {
+    padding: 0.5rem 0;
+  }
+
+  .nav-link.active::after {
+    bottom: 0;
+  }
+}
+
+/* Button styles */
+.navbar .btn {
+  padding: 0.5rem 1.25rem;
+  font-weight: 500;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.navbar .btn-primary {
+  background-color: #4299e1;
+  border-color: #4299e1;
+}
+
+.navbar .btn-primary:hover {
+  background-color: #3182ce;
+  border-color: #3182ce;
+  transform: translateY(-1px);
+}
+
+.navbar .btn-outline-danger {
+  border-color: #e53e3e;
+  color: #e53e3e;
+}
+
+.navbar .btn-outline-danger:hover {
+  background-color: #e53e3e;
+  border-color: #e53e3e;
+  color: #ffffff;
+  transform: translateY(-1px);
+} 
