@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Link from 'next/link';
 import { Container, Form, Button, Card, Alert, Row, Col } from 'react-bootstrap';
+import { GoogleLogin } from '@react-oauth/google';
 import Navigation from '../components/Navigation';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -11,10 +12,11 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [googleError, setGoogleError] = useState('');
   
   const router = useRouter();
   const { redirect } = router.query;
-  const { login, isAuthenticated } = useAuth();
+  const { login, googleLogin, isAuthenticated } = useAuth();
   
   useEffect(() => {
     if (isAuthenticated) {
@@ -35,6 +37,24 @@ export default function Login() {
       setLoading(false);
     }
   };
+
+  const handleGoogleSuccess = async (credentialResponse) => {
+    setGoogleError('');
+    setLoading(true);
+    
+    try {
+      const idToken = credentialResponse.credential;
+      await googleLogin(idToken);
+      router.push(redirect || '/');
+    } catch (error) {
+      setGoogleError(error.message || 'Google login failed. Please try again.');
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleError = () => {
+    setGoogleError('Google login failed. Please try again.');
+  };
   
   return (
     <div>
@@ -52,6 +72,7 @@ export default function Login() {
                 <h2 className="text-center mb-4">Login</h2>
                 
                 {error && <Alert variant="danger">{error}</Alert>}
+                {googleError && <Alert variant="danger">{googleError}</Alert>}
                 
                 <Form onSubmit={handleSubmit}>
                   <Form.Group className="mb-3">
@@ -84,16 +105,32 @@ export default function Login() {
                       {loading ? 'Logging in...' : 'Login'}
                     </Button>
                   </div>
-                  
-                  <div className="text-center">
-                    <p>
-                      Don&apos;t have an account?{' '}
-                      <Link href={`/register${redirect ? `?redirect=${redirect}` : ''}`}>
-                        Sign Up
-                      </Link>
-                    </p>
-                  </div>
                 </Form>
+
+                <div className="my-3 text-center position-relative">
+                  <span className="bg-white px-2 text-muted" style={{ position: 'relative', zIndex: 1 }}>or</span>
+                  <div style={{ position: 'absolute', top: '50%', left: 0, right: 0, borderTop: '1px solid #ccc', zIndex: 0 }}></div>
+                </div>
+
+                <div className="d-grid mb-3">
+                  <div className="d-flex justify-content-center">
+                    <GoogleLogin
+                      onSuccess={handleGoogleSuccess}
+                      onError={handleGoogleError}
+                      text="signin_with"
+                      size="large"
+                    />
+                  </div>
+                </div>
+                  
+                <div className="text-center">
+                  <p>
+                    Don&apos;t have an account?{' '}
+                    <Link href={`/register${redirect ? `?redirect=${redirect}` : ''}`}>
+                      Sign Up
+                    </Link>
+                  </p>
+                </div>
               </Card.Body>
             </Card>
           </Col>
@@ -101,91 +138,4 @@ export default function Login() {
       </Container>
     </div>
   );
-}
-
-
-
-
-// // pages/login.js
-// import { useState } from 'react';
-// import { useRouter } from 'next/router';
-// import Head from 'next/head';
-// import Link from 'next/link';
-// import { Container, Form, Button, Card, Alert, Row, Col } from 'react-bootstrap';
-// import { GoogleLogin } from 'react-google-login';
-// import { useAuth } from '../contexts/AuthContext';
-// import Navigation from '../components/Navigation';
-
-// export default function Login() {
-//   const router = useRouter();
-//   const { redirect } = router.query;
-//   const { login, googleLogin, isAuthenticated } = useAuth();
-  
-//   const [email, setEmail] = useState('');
-//   const [password, setPassword] = useState('');
-//   const [error, setError] = useState('');
-//   const [loading, setLoading] = useState(false);
-
-//   // Redirect if already logged in
-//   if (isAuthenticated) {
-//     router.push(redirect || '/');
-//     return null;
-//   }
-
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     setLoading(true);
-//     setError('');
-    
-//     try {
-//       await login(email, password);
-//       router.push(redirect || '/');
-//     } catch (error) {
-//       console.error('Login error:', error);
-//       setError('Invalid email or password. Please try again.');
-//       setLoading(false);
-//     }
-//   };
-
-//   const handleGoogleSuccess = async (response) => {
-//     setLoading(true);
-//     setError('');
-    
-//     try {
-//       await googleLogin(response.accessToken);
-//       router.push(redirect || '/');
-//     } catch (error) {
-//       console.error('Google login error:', error);
-//       setError('Google login failed. Please try again.');
-//       setLoading(false);
-//     }
-//   };
-
-//   const handleGoogleFailure = (error) => {
-//     console.error('Google login error:', error);
-//     setError('Google login failed. Please try again.');
-//   };
-
-//   return (
-//     <div>
-//       <Head>
-//         <title>Login | Circulus</title>
-//       </Head>
-
-//       <Navigation />
-
-//       <Container className="py-5">
-//         <Row className="justify-content-center">
-//           <Col md={6} lg={5}>
-//             <Card className="shadow-sm">
-//               <Card.Body className="p-4">
-//                 <h2 className="text-center mb-4">Login</h2>
-//                 </Card.Body>
-//                 </Card>
-//                 </Col>
-//                 </Row>
-//                 </Container>
-//                 </div>
-//   )};
-
-  
+}  

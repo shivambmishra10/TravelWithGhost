@@ -103,15 +103,32 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
-  const googleLogin = async (accessToken) => {
-    const response = await api.post('/api/auth/google/', { access_token: accessToken });
-    
-    const { token, user } = response.data;
-    localStorage.setItem('token', token);
-    api.defaults.headers.common['Authorization'] = `Token ${token}`;
-    
-    setUser(user);
-    return user;
+  const googleLogin = async (idToken) => {
+    try {
+      const response = await api.post('/api/auth/google/', { id_token: idToken });
+      
+      const { token, user } = response.data;
+      localStorage.setItem('token', token);
+      api.defaults.headers.common['Authorization'] = `Token ${token}`;
+      
+      setUser(user);
+      return user;
+    } catch (error) {
+      const errorData = error.response?.data;
+      let errorMessage = 'Google login failed.';
+      
+      if (errorData) {
+        if (errorData.id_token) {
+          errorMessage = Array.isArray(errorData.id_token) 
+            ? errorData.id_token[0]
+            : errorData.id_token;
+        } else if (errorData.detail) {
+          errorMessage = errorData.detail;
+        }
+      }
+      
+      throw new Error(errorMessage);
+    }
   };
 
   return (
